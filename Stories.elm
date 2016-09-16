@@ -2,21 +2,22 @@ import Html exposing (Html, button, div, text, body, p)
 
 import Html.App as App
 
-main =
-    App.beginnerProgram( { model = 0, view = view, update = update})
+import Html.Events as Events
 
-type Msg = Increment | Decrement
+main =
+    App.beginnerProgram( { model = Unknown, view = view, update = update})
+
+type Answer = Yes | No | Unknown
+
+type Msg = CreateAnswer
 
 update msg model =
     case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
+        CreateAnswer ->
+            No
 
 showAnswer model =
-    if model > 1 then
+    if model == Yes then
         p [] [ text "Yes"]
     else
         text ""
@@ -26,7 +27,7 @@ view model =
         [ div []
             [
                 p [] [text "Did they succeed?"],
-                button [] [ text "Answer"],
+                button [Events.onClick CreateAnswer] [ text "Answer"],
                 showAnswer model
             ]
         ]
