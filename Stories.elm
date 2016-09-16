@@ -4,6 +4,8 @@ import Html.App as App
 
 import Html.Events as Events
 
+import Random
+
 main =
     App.beginnerProgram( { model = Unknown, view = view, update = update})
 
@@ -11,10 +13,16 @@ type Answer = Yes | No | Unknown
 
 type Msg = CreateAnswer
 
+type Outcome = Success | Failure
+
+determineOutcome: Random.Generator Outcome
+determineOutcome =
+    Random.map (\b -> if b then Success else Failure) Random.bool
+
 update msg model =
     case msg of
         CreateAnswer ->
-            No
+            Yes
 
 showAnswer model =
     case model of
