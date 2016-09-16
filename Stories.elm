@@ -17,10 +17,13 @@ update msg model =
             No
 
 showAnswer model =
-    if model == Yes then
-        p [] [ text "Yes"]
-    else
-        text ""
+    case model of
+        Yes ->
+            p [] [ text "Yes"]
+        No ->
+            p [] [ text "No"]
+        Unknown ->
+            text ""
 
 view model =
     body []
