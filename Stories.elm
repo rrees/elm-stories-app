@@ -7,7 +7,12 @@ import Html.Events as Events
 import Random
 
 main =
-    App.beginnerProgram( { model = Unknown, view = view, update = update})
+    App.beginnerProgram( { model = StoryApp (Random.initialSeed 31) Unknown, view = view, update = update})
+
+type alias StoryApp = {
+    seed: Random.Seed,
+    answer: Answer
+}
 
 type Answer = Yes | No | Unknown
 
@@ -22,7 +27,10 @@ determineOutcome =
 update msg model =
     case msg of
         CreateAnswer ->
-            Yes
+            let (outcome, seed) = Random.step determineOutcome model.seed in
+                case outcome of
+                    Success -> StoryApp seed Yes
+                    Failure -> StoryApp seed No
 
 showAnswer model =
     case model of
@@ -39,6 +47,6 @@ view model =
             [
                 p [] [text "Did they succeed?"],
                 button [Events.onClick CreateAnswer] [ text "Answer"],
-                showAnswer model
+                showAnswer model.answer
             ]
         ]
