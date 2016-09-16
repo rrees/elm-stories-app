@@ -1,4 +1,4 @@
-import Html exposing (Html, button, div, text, body)
+import Html exposing (Html, button, div, text, body, p)
 
 import Html.App as App
 
@@ -15,7 +15,18 @@ update msg model =
         Decrement ->
             model - 1
 
+showAnswer model =
+    if model > 1 then
+        p [] [ text "Yes"]
+    else
+        text ""
+
 view model =
     body []
         [ div []
-            [ button [] [ text "Hello world"]]]
+            [
+                p [] [text "Did they succeed?"],
+                button [] [ text "Answer"],
+                showAnswer model
+            ]
+        ]
